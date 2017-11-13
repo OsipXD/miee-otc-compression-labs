@@ -15,7 +15,7 @@ info | bytes
 
 info | bytes
 --- | ---
-`symbol` | 1 byte integer
+`byte` | 1 byte integer
 `n_significant_bits` | 1 byte integer
 `significant_bits` | see `n_significant_bits`
 
@@ -25,5 +25,3 @@ info | bytes
 --- | ---
 `chunk_bit_len` | 1 byte integer
 `data` | see `chunk_bit_len`
-
-> if `chunk_bit_len` equal 0, it's last chunk
