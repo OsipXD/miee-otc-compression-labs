@@ -38,7 +38,7 @@ def decompress(archive_filename):
     position, source_filename = read_filename(archive_filename, position)
     position, opposite_codes = read_opposite_codes(archive_filename, position)
     read_data_chunks(archive_filename, position,
-                     'output', opposite_codes)
+                     source_filename, opposite_codes)
 
 
 if __name__ == '__main__':
