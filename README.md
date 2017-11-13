@@ -15,7 +15,7 @@ info | bytes
 
 info | bytes
 --- | ---
-`symbol` | 1 byte integer
+`byte` | 1 byte integer
 `n_significant_bits` | 1 byte integer
 `significant_bits` | see `n_significant_bits`
 
