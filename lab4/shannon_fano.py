@@ -9,7 +9,8 @@ def shannon_fano(probabilities):
 
 def divide_to_branches(branch):
     if len(branch.leaves) == 1:
-        return (branch.leaves[0].symbol, branch.code)
+        code = '0' if len(branch.code) == 0 else branch.code
+        return [(branch.leaves[0].symbol, code)]
     if len(branch.leaves) == 2:
         return [(branch.leaves[0].symbol, branch.code + '0'),
                 (branch.leaves[1].symbol, branch.code + '1')]
