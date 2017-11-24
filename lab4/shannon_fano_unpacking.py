@@ -1,25 +1,19 @@
 import math
 
-
-def check_signature(archive_filename):
-    with open(archive_filename, 'rb') as archive:
-        if archive.read(5) != b'.CEYM':
-            raise NotValidSignatureException
-        position = archive.tell()
-    return position
+from ceym.format import (check_signature, read_source_name,
+                         NotValidSignatureError)
 
 
-class NotValidSignatureException(Exception):
-    pass
-
-
-def read_filename(archive_filename, position):
-    with open(archive_filename, 'rb') as archive:
-        archive.seek(position)
-        name_len = int.from_bytes(archive.read(1), 'big')
-        source_filename = archive.read(name_len).decode()
-        position = archive.tell()
-    return position, source_filename
+def unpack(archive_filename):
+    try:
+        position = check_signature(archive_filename)
+    except NotValidSignatureError:
+        print('Not .ceym archive or corrupted data!')
+        return
+    position, source_filename = read_source_name(archive_filename, position)
+    position, opposite_codes = read_opposite_codes(archive_filename, position)
+    read_data_chunks(archive_filename, position,
+                     source_filename, opposite_codes)
 
 
 def read_opposite_codes(archive_filename, position):

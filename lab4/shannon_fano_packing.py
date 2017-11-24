@@ -1,15 +1,13 @@
 import math
 
-
-def write_signature(archive_filename):
-    with open(archive_filename, 'wb') as archive:
-        archive.write(b'.CEYM')
+from ceym.format import write_signature, write_source_name
 
 
-def write_source_filename(archive_filename, source_filename):
-    with open(archive_filename, 'ab') as archive:
-        archive.write(len(source_filename).to_bytes(1, 'big'))
-        archive.write(source_filename.encode())
+def pack(source_filename, archive_filename, codes):
+    write_signature(archive_filename)
+    write_source_name(archive_filename, source_filename)
+    write_frequency_table(archive_filename, codes)
+    write_data_chunks(archive_filename, source_filename, codes)
 
 
 def write_frequency_table(archive_filename, codes):
