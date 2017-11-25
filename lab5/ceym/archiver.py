@@ -25,8 +25,10 @@ class CEYMArchiverUtility:
             print("You can't use `name` with `show` flag")
             exit(1)
         if args.unpack:
-            self.decompress_func(args.unpack, args.name)
+            source_name = args.name or args.unpack.rpartition('.')[0]
+            self.decompress_func(args.unpack, source_name)
         if args.pack:
-            self.compress_func(args.pack, args.name)
+            source_name = args.name or args.pack.rpartition('.')[0]
+            self.compress_func(source_name, args.pack)
         if args.show:
             self.show_func(args.show)
