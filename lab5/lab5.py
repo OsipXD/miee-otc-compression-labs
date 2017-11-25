@@ -1,9 +1,8 @@
 #!/usr/bin/env python
-
-
-def main():
-    pass
+from ceym.archiver import CEYMArchiverUtility
 
 
 if __name__ == '__main__':
-    main()
+    # archiver = CEYMArchiverUtility(None, None, None)
+    # archiver.run()
+    pass
