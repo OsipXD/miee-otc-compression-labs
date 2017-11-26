@@ -6,11 +6,12 @@ from ceym.format import check_signature, read_source_name
 
 def show(archive_name):
     try:
-        check_signature(archive_name)
-        _, source_name = read_source_name
-        print('Valid ceym archive with "{0}" file.'.format(source_name))
+        position = check_signature(archive_name)
     except NotValidSignatureError:
         print('Not valid ceym archive.')
+        return
+    _, source_name = read_source_name(archive_name, position)
+    print('Valid ceym archive with "{0}" file.'.format(source_name))
 
 
 if __name__ == '__main__':
