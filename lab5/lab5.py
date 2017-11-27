@@ -15,5 +15,5 @@ def show(archive_name):
 
 
 if __name__ == '__main__':
-    archiver = CEYMArchiverUtility(pack, unpack, show)
+    archiver = CEYMArchiverUtility(unpack, pack, show)
     archiver.run()
