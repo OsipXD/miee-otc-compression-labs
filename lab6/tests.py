@@ -20,5 +20,10 @@ class ArithmeticCompressionTest(unittest.TestCase):
     	actual = pack_bytes(b'AAAAACABBBAA')
     	self.assertEqual(expected, actual)
 
+    def test_unpack_bytes(self):
+    	expected = list(b'AAAAACABBBAA')
+    	actual = unpack_bytes([0x05, 0x41, 0x00, 0x02, 0x43, 0x41, 0x03, 0x42, 0x02, 0x41])
+    	self.assertEqual(expected, actual)    	
+
 if __name__ == '__main__':
     unittest.main()
