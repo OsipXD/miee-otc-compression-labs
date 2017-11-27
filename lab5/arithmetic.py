@@ -1,6 +1,6 @@
 def pack(source_name, archive_name=None):
     if archive_name is None:
-        archive_name = source_name.rpartition(' ')[0] + '.ceym'
+        archive_name = source_name.rpartition('.')[0] + '.ceym'
     # packing
 
 
