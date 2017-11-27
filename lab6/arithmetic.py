@@ -3,7 +3,6 @@ import struct
 from ceym.format import (check_signature, read_source_name,
                          write_signature, write_source_name,
                          NotValidSignatureError)
-from ceym.frequency_counter import frequency_counter
 
 
 def pack(source_name, archive_name=None):
@@ -11,16 +10,50 @@ def pack(source_name, archive_name=None):
         archive_name = source_name.rpartition('.')[0] + '.ceym'
     write_signature(archive_name)
     write_source_name(archive_name, source_name)
-    frequencies = frequency_counter(source_name)
-    write_frequency_table(archive_name, frequencies)
+    # packing
 
 
-def write_frequency_table(archive_name, frequencies):
-    with open(archive_name, 'ab') as archive:
-        archive.write(len(frequencies).to_bytes(2, 'big'))
-        for code, frequency in frequencies:
-            archive.write(code.to_bytes(1, 'big'))
-            archive.write(struct.pack('>d', frequency))
+def pack_bytes(bytes):
+	counter = 0
+	sequence = []
+	packed = []
+
+	for byte in bytes:
+		if counter == 0:
+			last_byte = byte
+			counter = 1
+			continue
+
+		if byte == last_byte:
+			if sequence:
+				packed += sign_sequence(sequence)
+				sequence = []
+			counter += 1
+		else:
+			if counter == 1:
+				sequence += [last_byte]
+			else:
+				packed += sign_byte(counter, last_byte)
+				counter = 1
+
+		# print(chr(byte) + ' > ' + str(packed))
+		# print('sequence: ' + str(sequence) + "; counter: " + str(counter))
+		last_byte = byte
+
+	packed += sign_sequence(sequence + [byte]) if sequence else sign_byte(counter, last_byte)
+
+	return packed
+
+
+def sign_sequence(sequence):
+	prefix = [0x00, len(sequence)]
+	part = prefix + sequence
+
+	return part
+
+
+def sign_byte(count, byte):
+	return [count, byte]
 
 
 def unpack(archive_name, override_name=None):
